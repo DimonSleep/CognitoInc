@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h1>Video Conference</h1>
+  <video id="localVideo" autoplay></video>
+  <div id="remoteVideos"></div>
+  <script src="https://cdn.jsdelivr.net/npm/simplewebrtc/latest-v3.js"></script>
+  <script>
+    var webrtc = new SimpleWebRTC({
+      localVideoEl: 'localVideo',
+      remoteVideosEl: 'remoteVideos',
+      autoRequestMedia: true
+    });
+    webrtc.on('readyToCall', function() {
+      webrtc.joinRoom('conference');
+    });
+  </script>
+{% endblock %}

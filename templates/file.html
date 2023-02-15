@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h1>File Upload</h1>
+  <form method="POST" action="{{ url_for('upload') }}" enctype="multipart/form-data">
+    {{ form.csrf_token }}
+    {{ form.upload() }}<br>
+    {{ form.submit() }}
+  </form>
+  <div id="message"></div>
+  <script>
+    $('form').submit(function(event) {
+      event.preventDefault();
+      var form_data = new FormData($('form')[0]);
+      $.ajax({
+        type: 'POST',
+        url: '{{ url_for("upload") }}',
+        data: form_data,
+        contentType: false,
+        cache: false,
+        processData: false,
+        success: function(data) {
+          $('#message').html(data);
+        },
+        error: function() {
+          $('#message').html('An error occurred while uploading the file.');
+        }
+      });
+    });
+  </script>
+{% endblock %}
